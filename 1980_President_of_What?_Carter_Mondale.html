@@ -14005,4 +14005,25 @@ campaignTrail_temp.jet_data = [{
     "banner_enabled": true
 }
 ]
+const electionObserver = new MutationObserver((mutations, electionObserverInstance) => {
+    for (let mutation of mutations) {
+        if (mutation.type === "childList") {
+            const electionElement = document.getElementById("election_night_buttons");
+            if (electionElement) {
+                const electionPlaylist = new Playlist();
+                const electionSong = new Song(
+                "(Just Like) Starting Over",
+                "John Lennon",
+                "https://i.imgur.com/MKlxJle.png",
+                "https://audio.jukehost.co.uk/XkyJ3jdK9BkRiCQGw4N38mCYTmwdlKLl"
+                );
+                electionPlaylist.addSong(electionSong);
+                changePlaylist(electionPlaylist);
+                electionObserverInstance.disconnect(); 
+                break;
+            }
+        }
+    }
+});
 
+electionObserver.observe(document.body, { childList: true, subtree: true });
