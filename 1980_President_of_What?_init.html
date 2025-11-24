@@ -51,7 +51,7 @@ campaignTrail_temp.candidate_json = [
             "party": "Democratic",
             "state": "Georgia",
             "priority": 2,
-            "description": "Jimmy Who?",
+            "description": `<span style="font-family: helvetica; font-size: 2em; font-weight: bold; line-height: 1.5;">Jimmy Who? </span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
             "color_hex": "#d46167",
             "secondary_color_hex": "#FFA0A0",
             "is_active": 1,
@@ -151,7 +151,7 @@ campaignTrail_temp.candidate_json = [
             "electoral_victory_message": "''",
             "electoral_loss_message": "''",
             "no_electoral_majority_message": "''",
-            "description_as_running_mate": "<p>Frank Church is a Senator from Idaho, and one of Carter's rivals in the 1976 primaries. He is known for his opposition to the Vietnam War, and his investigations of America's intelligence bureaus. Both of these factors make him appealing to the anti-war bloc of the Democratic Party, and have made him a well-known, national figure in politics. He is also outgoing and charismatic, and could overshadow a more soft-spoken Carter.</p>",
+            "description_as_running_mate": `<p><span style="font-family: helvetica; font-size: 2em; font-weight: bold; line-height: 1.5;">Jimmy Who? </span>Frank Church is a Senator from Idaho, and one of Carter's rivals in the 1976 primaries. He is known for his opposition to the Vietnam War, and his investigations of America's intelligence bureaus. Both of these factors make him appealing to the anti-war bloc of the Democratic Party, and have made him a well-known, national figure in politics. He is also outgoing and charismatic, and could overshadow a more soft-spoken Carter.</p>`,
             "candidate_score": 0,
             "running_mate": false
         }
@@ -297,6 +297,451 @@ jet_data = {
 
 
 corrr = '\n              <h2>PRESIDENT OF WHAT?</h2>\n            ';
+function ensureMetaViewport() {
+    if (!document.querySelector('meta[name="viewport"]')) {
+        const m = document.createElement('meta');
+        m.name = 'viewport';
+        m.content = 'width=device-width, initial-scale=1';
+        document.head.appendChild(m);
+    }
+}
+
+applyGlobalStyles.sheets = {};
+
+function applyGlobalStyles(css, id = 'app-theme') {
+    if ('adoptedStyleSheets' in document && 'replaceSync' in CSSStyleSheet.prototype) {
+        if (!applyGlobalStyles.sheets[id]) {
+            applyGlobalStyles.sheets[id] = new CSSStyleSheet();
+            document.adoptedStyleSheets = [...document.adoptedStyleSheets, applyGlobalStyles.sheets[id]];
+        }
+        applyGlobalStyles.sheets[id].replaceSync(css);
+        return;
+    }
+
+    let el = document.getElementById(id);
+    if (!el) {
+        el = document.createElement('style');
+        el.id = id;
+        document.head.appendChild(el);
+    }
+    el.textContent = css;
+}
+const css = `
+@font-face {
+    font-family: "Helvetica";
+    src: url("https://db.onlinewebfonts.com/t/9f9eb7c275998682141691bcc52f3109.eot");
+    src: url("https://db.onlinewebfonts.com/t/9f9eb7c275998682141691bcc52f3109.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/9f9eb7c275998682141691bcc52f3109.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/9f9eb7c275998682141691bcc52f3109.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/9f9eb7c275998682141691bcc52f3109.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/9f9eb7c275998682141691bcc52f3109.svg#Helvetica")format("svg");
+}
+
+@font-face {
+    font-family: "Futura";
+    src: url("https://db.onlinewebfonts.com/t/202277425a495fa4b4a00b3dcbe64d38.eot");
+    src: url("https://db.onlinewebfonts.com/t/202277425a495fa4b4a00b3dcbe64d38.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/202277425a495fa4b4a00b3dcbe64d38.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/202277425a495fa4b4a00b3dcbe64d38.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/202277425a495fa4b4a00b3dcbe64d38.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/202277425a495fa4b4a00b3dcbe64d38.svg#FuturaICG")format("svg");
+}
+
+.person_image {
+    margin: 0;
+    border: #0c1008 double 4px;
+    border-bottom: #0c1008 solid 2px;
+    position: relative;
+    mix-blend-mode: color dodge;
+    padding-bottom: 61px;
+    background-color: #fcf7ce;
+}
+
+#candidate_image {
+    animation: move-left linear 0.3s;
+}
+
+#running_mate_image {
+    animation: move-right linear 0.3s;
+}
+
+#candidate_image::before {
+    display: inline-block;
+    content: "JIMMY CARTER";
+    font-family: Helvetica;
+    font-size: 1.9em;
+    position: absolute;
+    bottom: 10%;
+    line-height: 1.2;
+    font-weight: bold;
+    font-style: italic;
+    color: #0c1008;
+    left: 5px;
+}
+
+#candidate_image::after {
+    display: inline-block;
+    content: "Democrat";
+    font-family: futura;
+    font-size: 1.5em;
+    position: absolute;
+    bottom: 5%;
+    line-height: .7;
+    font-style: italic;
+    color: #0c1008;
+    left: 10px;
+}
+
+#running_mate_image::before {
+    display: inline-block;
+    content: "WALTER MONDALE";
+    font-family: Helvetica;
+    font-size: 1.6em;
+    position: absolute;
+    bottom: 10%;
+    line-height: 1.2;
+    font-weight: bold;
+    font-style: italic;
+    color: #0c1008;
+    right: 5px;
+
+}
+
+#running_mate_image::after {
+    display: inline-block;
+    content: "Democrat";
+    font-family: futura;
+    font-size: 1.5em;
+    position: absolute;
+    bottom: 5%;
+    line-height: .7;
+    font-style: italic;
+    color: #0c1008;
+    right: 10px;
+}
+
+.person_summary ul {
+    display: none;
+}
+
+.person_summary {
+    width: 250px;
+    height: 314px;
+    border: 2px #0c1008 solid;
+    background-color: #fcf7ce;
+    margin: 0;
+    padding: 0 1em;
+    font-family: futura;
+
+}
+
+#candidate_summary {
+    border-left: 0;
+    animation: move-left linear 0.3s;
+}
+
+#running_mate_summary {
+    border-right: 0;
+    animation: move-right linear 0.3s;
+}
+
+.person_description_window {
+    display: flex;
+    gap: 0;
+    overflow:hidden;
+}
+
+@keyframes move-left {
+  from {
+   translate: -25px 5px;
+   opacity: 0.7;
+  }
+  to {
+    translate: none;
+    opacity: 1;
+  }
+}
+
+@keyframes move-right {
+  from {
+   translate: 25px -10px;
+   opacity: 0.7;
+  }
+  to {
+    translate: none;
+    opacity: 1;
+  }
+}
+
+#candidate_description_window {
+    background-image: url("https://media.discordapp.net/attachments/1357862480055107675/1442363459428679782/carter_white_house1.webp?ex=69252926&is=6923d7a6&hm=86c8c36fbe6511987d10143e6185d94a0d6d53569ff8b745bdf333a7beb577c8&=&format=webp&width=1216&height=930");
+    justify-content: left;
+}
+
+#running_mate_description_window {
+    background-image: url("https://static01.nyt.com/images/2008/04/01/us/01fight1.600.jpg?quality=75&auto=webp&disable=upscale");
+    justify-content: right;
+    flex-direction: row-reverse;
+}
+
+#player {
+  border: 3px solid #078650; 
+  display: flex;
+  flex-direction: row;
+height:191px;
+  background-Image: url("https://i.imgur.com/57IeWZc.png"); 
+}
+
+#display-box {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+#cover {
+  width: 176px;
+height:176px;
+}
+
+#info-container {
+  display: flex;
+  flex-direction: row;
+  height:178px;
+width:127px;
+margin-top: 3px;
+}
+
+#song-info {
+  width: 100%;
+padding:5px;
+}
+
+#controls-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  width:100%;
+padding-top:15px;
+
+}
+.is-vertical #volumeSlider {
+width: 16px;
+appearance: slider-vertical;
+}
+
+#controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 80%;
+}
+
+#progress-bar-container {
+  width: 100%;
+}
+
+#progress-bar {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  margin-top: 20px;
+  appearance: none; 
+  background: #ccc; 
+  height: 5px; 
+  border-radius: 5px; 
+  outline: none; 
+  cursor: pointer; 
+}
+
+#progress-bar::-webkit-slider-thumb {
+  appearance: none; /* Remove default styling for consistency across browsers */
+  width: 15px;
+  height: 15px;
+  background: #333; /* Slider thumb color */
+  border-radius: 50%; /* Round thumb */
+  cursor: pointer;
+}
+
+#progress-bar::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background: #333;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#question_form {
+  color: #062c42;
+}
+
+.inner_window_question {
+  background-color:#f1f1f1;
+  border-radius: 5px; 
+  position: relative;
+  overflow: visible;
+}
+
+.inner_window_question h3 {
+  background-color:#062c42;
+  border-radius: 5px;
+  box-shadow: 
+  0 0 5px rgba(224, 255, 255, 0.5),  
+  0 0 10px rgba(224, 255, 255, 0.3),  
+  0 0 20px rgba(224, 255, 255, 0.1); 
+}
+
+@keyframes fadeInScale {
+  0% {
+      opacity: 0;
+      transform: scale(0.8);
+  }
+  100% {
+      opacity: 1;
+      transform: scale(1);
+  }
+}
+
+.overlay_window {
+  position: absolute;
+  opacity: 0; /* Start hidden */
+  transform: scale(0.8); /* Start slightly smaller */
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  box-shadow:
+      0 0 10px rgba(224, 255, 255, 0.5),  
+      0 0 20px rgba(224, 255, 255, 0.3),  
+      0 0 40px rgba(224, 255, 255, 0.1);
+  
+  height: 62%;
+  width: 50%;
+  top: 17%;
+  left: 25%;
+  
+  border-style: double;
+  border-color: #C9C9C9;
+
+  animation: fadeInScale 0.3s cubic-bezier(0.3, 1.2, 0.2, 1) forwards;
+}
+
+
+.overlay_window h3 {
+  background-color: #ffffff;
+}
+
+.overlay_window_content {
+  color: #062c42;
+}
+
+#progress_bar h3 {
+  color: #062c42;
+  }
+
+  .inner_inner_window h3 {
+      color: #ffffff;
+      }
+
+  .inner_window_sign_display {
+      background-color:#f1f1f1;
+  }
+
+  .overlay_window img {
+    width: 251px;
+    height: 134px;
+}
+
+#needle {
+  position: absolute;        
+  top: 0;
+  left: 0;
+
+  width: 127px;             
+  height: 352px;
+
+  /* Center pivot for rotation */
+  transform-origin: 50% 50%;
+  transform: rotate(-45deg); 
+
+  transition: transform 0.3s ease;  
+  pointer-events: none;    
+  user-select: none;          
+  z-index: 9999;                   
+  outline: none; 
+border: none;
+}
+
+.final_results_table {
+  color: black;
+}
+
+#state_result_data_summary table {
+  color: black;
+}
+
+#state_result_data_summary table th,
+#state_result_data_summary table td {
+  color: black; 
+}
+
+#overall_result_container,
+#menu_container,
+#state_result_container {
+  background-color:transparent
+}
+
+#map_container{
+  background-color:#f1f1f1;
+  border-radius: 25px; 
+  box-shadow: 
+  0 0 10px rgba(224, 255, 255, 0.5),  
+  0 0 20px rgba(224, 255, 255, 0.3),  
+  0 0 40px rgba(224, 255, 255, 0.1); 
+  position: relative;
+  overflow: hidden;
+}
+
+.campaign_trail_start_emphasis {
+  background-color: transparent;
+}
+
+.cheatIndicator {
+position: absolute;
+}
+#difficulty_mult {
+display: none;
+}
+#results_container{
+  overflow: auto;
+}0
+
+
+.final_results_table {
+width: 66% !important;
+table-layout: fixed !important;
+border-collapse: collapse !important;
+margin-right: 3% !important;
+font-family: Georgia, serif !important;
+background-color: #e6ecf5 !important;
+box-shadow: 0 0 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.final_results_table th,
+.final_results_table td {
+padding: 2px 4px !important;
+border: 1px solid #ccc !important;
+text-align: center !important;
+white-space: nowrap !important; /* ⬅ Prevents wrapping */
+}
+
+.final_results_table td:first-child {
+text-align: left !important;
+width: 40% !important; /* ⬅ Makes room for long names */
+}
+`;
+
+ensureMetaViewport();
+
+applyGlobalStyles(css, 'mod-style');
 
 
 nct_stuff.themes[nct_stuff.selectedTheme].coloring_title = "#078650";
@@ -916,278 +1361,6 @@ audio.play();
 updateUI(playlist);
 }
 
-
-const style = document.createElement("style");
-style.textContent = `
-#player {
-  border: 3px solid #078650; 
-  display: flex;
-  flex-direction: row;
-height:191px;
-  background-Image: url("https://i.imgur.com/57IeWZc.png"); 
-}
-
-#display-box {
-  display: flex;
-  align-items: center;
-  width: 50%;
-}
-
-#cover {
-  width: 176px;
-height:176px;
-}
-
-#info-container {
-  display: flex;
-  flex-direction: row;
-  height:178px;
-width:127px;
-margin-top: 3px;
-}
-
-#song-info {
-  width: 100%;
-padding:5px;
-}
-
-#controls-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px;
-  width:100%;
-padding-top:15px;
-
-}
-.is-vertical #volumeSlider {
-width: 16px;
-appearance: slider-vertical;
-}
-
-#controls {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 80%;
-}
-
-#progress-bar-container {
-  width: 100%;
-}
-
-#progress-bar {
-  width: 80%;
-  margin: auto;
-  display: flex;
-  margin-top: 20px;
-  appearance: none; 
-  background: #ccc; 
-  height: 5px; 
-  border-radius: 5px; 
-  outline: none; 
-  cursor: pointer; 
-}
-
-#progress-bar::-webkit-slider-thumb {
-  appearance: none; /* Remove default styling for consistency across browsers */
-  width: 15px;
-  height: 15px;
-  background: #333; /* Slider thumb color */
-  border-radius: 50%; /* Round thumb */
-  cursor: pointer;
-}
-
-#progress-bar::-moz-range-thumb {
-  width: 15px;
-  height: 15px;
-  background: #333;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-#question_form {
-  color: #062c42;
-}
-
-.inner_window_question {
-  background-color:#f1f1f1;
-  border-radius: 5px; 
-  position: relative;
-  overflow: visible;
-}
-
-.inner_window_question h3 {
-  background-color:#062c42;
-  border-radius: 5px;
-  box-shadow: 
-  0 0 5px rgba(224, 255, 255, 0.5),  
-  0 0 10px rgba(224, 255, 255, 0.3),  
-  0 0 20px rgba(224, 255, 255, 0.1); 
-}
-
-@keyframes fadeInScale {
-  0% {
-      opacity: 0;
-      transform: scale(0.8);
-  }
-  100% {
-      opacity: 1;
-      transform: scale(1);
-  }
-}
-
-.overlay_window {
-  position: absolute;
-  opacity: 0; /* Start hidden */
-  transform: scale(0.8); /* Start slightly smaller */
-  background-color: #f1f1f1;
-  border-radius: 5px;
-  box-shadow:
-      0 0 10px rgba(224, 255, 255, 0.5),  
-      0 0 20px rgba(224, 255, 255, 0.3),  
-      0 0 40px rgba(224, 255, 255, 0.1);
-  
-  height: 62%;
-  width: 50%;
-  top: 17%;
-  left: 25%;
-  
-  border-style: double;
-  border-color: #C9C9C9;
-
-  animation: fadeInScale 0.3s cubic-bezier(0.3, 1.2, 0.2, 1) forwards;
-}
-
-
-.overlay_window h3 {
-  background-color: #ffffff;
-}
-
-.overlay_window_content {
-  color: #062c42;
-}
-
-#progress_bar h3 {
-  color: #062c42;
-  }
-
-  .inner_inner_window h3 {
-      color: #ffffff;
-      }
-
-  .inner_window_sign_display {
-      background-color:#f1f1f1;
-  }
-
-  .overlay_window img {
-    width: 251px;
-    height: 134px;
-}
-
-#needle {
-  position: absolute;        
-  top: 0;
-  left: 0;
-
-  width: 127px;             
-  height: 352px;
-
-  /* Center pivot for rotation */
-  transform-origin: 50% 50%;
-  transform: rotate(-45deg); 
-
-  transition: transform 0.3s ease;  
-  pointer-events: none;    
-  user-select: none;          
-  z-index: 9999;                   
-  outline: none; 
-border: none;
-}
-
-.final_results_table {
-  color: black;
-}
-
-#state_result_data_summary table {
-  color: black;
-}
-
-#state_result_data_summary table th,
-#state_result_data_summary table td {
-  color: black; 
-}
-
-#overall_result_container,
-#menu_container,
-#state_result_container {
-  background-color:transparent
-}
-
-#map_container{
-  background-color:#f1f1f1;
-  border-radius: 25px; 
-  box-shadow: 
-  0 0 10px rgba(224, 255, 255, 0.5),  
-  0 0 20px rgba(224, 255, 255, 0.3),  
-  0 0 40px rgba(224, 255, 255, 0.1); 
-  position: relative;
-  overflow: hidden;
-}
-
-.campaign_trail_start_emphasis {
-  background-color: transparent;
-}
-
-.cheatIndicator {
-position: absolute;
-}
-#difficulty_mult {
-display: none;
-}
-#results_container{
-  overflow: auto;
-}
-.person_image {
-  position: sticky;
-  top: 16px; 
-  align-self: flex-start;
-  z-index: 1;
-  float: left;
-  margin: 1.2em 1em 0;
-  border: double;
-  border-color: #078650;
-  height: 250px;
-}
-
-
-.final_results_table {
-width: 66% !important;
-table-layout: fixed !important;
-border-collapse: collapse !important;
-margin-right: 3% !important;
-font-family: Georgia, serif !important;
-background-color: #e6ecf5 !important;
-box-shadow: 0 0 12px rgba(0, 0, 0, 0.2) !important;
-}
-
-.final_results_table th,
-.final_results_table td {
-padding: 2px 4px !important;
-border: 1px solid #ccc !important;
-text-align: center !important;
-white-space: nowrap !important; /* ⬅ Prevents wrapping */
-}
-
-.final_results_table td:first-child {
-text-align: left !important;
-width: 40% !important; /* ⬅ Makes room for long names */
-}
-
-
-`;
-
-document.head.appendChild(style);
 
 async function appendStyle() {
   var metaTag=document.createElement('meta');
