@@ -14005,6 +14005,45 @@ campaignTrail_temp.jet_data = [{
     "banner_enabled": true
 }
 ]
+function updateHistoricalData(newVpTable, newHexColors, newNames, newEvs, newPvs, newPvps) {
+    vpTableHistorical = newVpTable;
+    HistHexcolour = newHexColors;
+    HistName = newNames;
+    HistEV = newEvs;
+    HistPV = newPvs;
+    HistPVP = newPvps;
+}
+vpTable = {
+    // Democrats
+    "Jimmy Carter" : "Walter Mondale",
+    "Teddy Kennedy" : "Tom Bradley",
+    
+    // Republicans
+    "Ronald Reagan" : "George Bush",
+    "George Bush" : "Paul Laxalt",
+    "John Connally" : "Al Quie",
+    "Howard Baker" : "Guy Vander Jagt",
+    "John Anderson" : "Richard Lugar",
+    "Bob Dole" : "Jim Thompson",
+    "Jesse Helms" : "Phil Crane",
+    "Spiro Agnew" : "Jack Kemp",
+    "Gerald Ford" : "Donald Rumsfeld",
+
+    // 3rd Party
+    "Barry Commoner" : "La Donna Harris",
+}
+vpTableHistorical = {
+"Jimmy Carter" : "Walter Mondale",
+"Ronald Reagan" : "George Bush",
+"John Anderson" : "Patrick Lucey",
+"Barry Commoner" : "La Donna Harris",
+}
+HistHexcolour=["#184974","#ee4753","#a29d0b","#027000"];
+HistName=[" Ronald Reagan"," Jimmy Carter"," John Anderson"," Barry Commoner"];
+HistEV=[489,49,0,0];
+HistPV=["43,899,248","35,481,436","5,719,850","233,052"];
+HistPVP=["50.7%","41.0%","6.6%","0.27%"];
+
 async function handleFooter() {
     var gameWindow = document.getElementById('game_window');
     var existingFooter = document.getElementById('new_footer');
@@ -14145,6 +14184,9 @@ async function handleMutations(mutationsList, observer) {
 let processedNodes = new Set();
 let observerRunning = false;
 
+let gameWindowNode = document.getElementById("game_window");
+let questionConfig = { attributes: true, childList: true, subtree: true };
+
 var element = document.getElementById('controlElement');
 if (!element) {
 	let singleObserver = new MutationObserver(handleMutations);
@@ -14154,6 +14196,9 @@ if (!element) {
 	controlElement.id = 'controlElement';
 	document.body.appendChild(controlElement);
 }
+let candidateWatcherConfig = { attributes: true, childList: true, subtree: true };
+const candidateObserver = new MutationObserver(onGameWindowChangeCandidates);
+candidateObserver.observe(gameWindowNode, candidateWatcherConfig);
 const electionObserver = new MutationObserver((mutations, electionObserverInstance) => {
     for (let mutation of mutations) {
         if (mutation.type === "childList") {
@@ -14176,3 +14221,51 @@ const electionObserver = new MutationObserver((mutations, electionObserverInstan
 });
 
 electionObserver.observe(document.body, { childList: true, subtree: true });
+
+function onGameWindowChangeCandidates() {
+    const resultsTableHolder = document.getElementById("overall_details_container");
+
+    if(!resultsTableHolder || resultsTableHolder.classList.contains("done")) {
+        return;
+    }
+
+    resultsTableHolder.classList.add("done");
+
+    const resultsTable = resultsTableHolder.childNodes[3].childNodes[3].children[0];
+    
+    for(let i = 0; i < resultsTable.children.length; i++) {
+        const row = resultsTable.children[i];
+        let name = row.firstChild.innerText;
+        row.insertCell(1);
+        if(name) {
+            name = name.replaceAll("-", "").trim();
+            console.log("name is:" + name)
+        }
+
+        if(i == 0) {
+            row.children[1].innerHTML = `<span style="font-weight:bold">Running Mate<span>`;
+        }
+        else {
+            row.children[1].innerHTML = vpTable[name];
+        }
+    }
+
+    
+    const resultsTableHistorical = resultsTableHolder.childNodes[5].childNodes[3].children[0];
+    
+    for(let i = 0; i < resultsTableHistorical.children.length; i++) {
+        const row = resultsTableHistorical.children[i];
+        let name = row.childNodes[1].innerText;
+        row.insertCell(1);
+        if(name) {
+            name = name.replaceAll("-", "").trim();
+        }
+
+        if(i == 0) {
+            row.children[1].innerHTML = `<span style="font-weight:bold">Running Mate<span>`;
+        }
+        else {
+            row.children[1].innerHTML = vpTableHistorical[name];
+        }
+    }
+}
