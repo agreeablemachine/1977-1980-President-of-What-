@@ -51,7 +51,7 @@ campaignTrail_temp.candidate_json = [
             "party": "Democratic",
             "state": "Georgia",
             "priority": 2,
-            "description": `<p><span style="font-family: helvetica; font-size: 2em; font-weight: bold; line-height: 1.5;">Jimmy Who? </span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>`,
+            "description": `<p><span style="font-family: helvetica; font-size: 2em; font-weight: bold; line-height: 1.5;">Jimmy Who? </span>The peanut farmer (and Governor) from Plains has taken the world by storm over the last election cycle, using his grit and tenacity to barely claim the nation's highest office after a disasterous campaign. Don't let the smile fool you, this is no soft man. When the music dies down and the crowds disappear, the real Jimmy Carter shows.<br><br><b>Cold, calculating and all too intelligent.</b> But he knows it. He's known himself as enlightened among his constituents for many decades however–he makes an effort to be, or at least appear humble. You won't get anywhere if you cannot show people a better way, right? He walks into Washington Bible-in-hand, with a cheeky grin. This is a new form of salvation. He will save America not just from itself, but from the grasp of immorality and bring conviction all across the country.</p>`,
             "color_hex": "#d46167",
             "secondary_color_hex": "#FFA0A0",
             "is_active": 1,
@@ -286,7 +286,7 @@ jet_data = {
     "windowColor": "#71a890",
     "containerColor": "#949494",
     "innerWindowColor": "#078650",
-    "bannerImageUrl": "https://file.garden/aOp8cCiQ5ho9r5b1/1996%3A%20Hope/POW%20BANNER%202",
+    "bannerImageUrl": "https://file.garden/aOp8cCiQ5ho9r5b1/1996%3A%20Hope/POW%20BANNER%201.png",
     "backgroundImageUrl": "https://file.garden/aOp8cCiQ5ho9r5b1/1980%3A%20President%20of%20What%3F%20Assets/POW%20BG%20IMG.png",
     "endingTextColor": "#ffffff",
     "customQuote": "",
@@ -432,6 +432,7 @@ const css = `
     margin: 0;
     padding: 0 1em;
     font-family: futura;
+    overflow: auto;
 
 }
 
@@ -776,7 +777,7 @@ $("#game_window")[0].style.borderColor = "#078650"
 
 $(".container")[0].style.border = ".2em solid #078650"
 
-document.getElementById("header").src = "https://file.garden/aOp8cCiQ5ho9r5b1/1996%3A%20Hope/POW%20BANNER%202";
+document.getElementById("header").src = "https://file.garden/aOp8cCiQ5ho9r5b1/1996%3A%20Hope/POW%20BANNER%201.png";
 
 document.body.background = "https://file.garden/aOp8cCiQ5ho9r5b1/1980%3A%20President%20of%20What%3F%20Assets/POW%20BG%20IMG.png";
 
@@ -786,6 +787,7 @@ document.getElementById("inner_window_1").children[1].innerHTML =  `<li>Welcome 
 
 campaignTrail_temp.modBoxTheme = {
   "header_color": "#078650",
+  "header_image_url": "https://file.garden/aOp8cCiQ5ho9r5b1/1996%3A%20Hope/POW%20BANNER%201.png",
   "header_text_color": "#ffffff",
   "description_text_color": "#ffffff",
   "description_background_color": "#71a890",
